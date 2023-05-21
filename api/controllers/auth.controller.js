@@ -1,6 +1,7 @@
 import User from '../modules/User.js';
 import bcrypt from 'bcryptjs';
 import { createError } from '../utils/error.js';
+import jwt from 'jsonwebtoken';
 
 const register = async (req, res, next) => {
   try {
@@ -41,7 +42,20 @@ const login = async (req, res, next) => {
       return;
     }
     const { password, isAdmin, ...otherDetails } = foundUser._doc;
-    res.status(200).json({ ...otherDetails });
+
+    const token = jwt.sign(
+      {
+        id: foundUser.id,
+        isAdmin,
+      },
+      process.env.JWT
+    );
+    res
+      .cookie('access-token', token, {
+        httpOnly: true,
+      })
+      .status(200)
+      .json({ ...otherDetails });
   } catch (error) {
     next(error);
   }
