@@ -51,7 +51,7 @@ const login = async (req, res, next) => {
       process.env.JWT
     );
     res
-      .cookie('access-token', token, {
+      .cookie('access_token', token, {
         httpOnly: true,
       })
       .status(200)

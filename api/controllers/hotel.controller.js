@@ -1,6 +1,6 @@
-import Hotel from '../modules/Hotel.js'
+import Hotel from '../modules/Hotel.js';
 
-const createHotel = async (req, res) => {
+const createHotel = async (req, res, next) => {
   try {
     const newHotel = new Hotel(req.body);
     const savedHotel = await newHotel.save();
@@ -10,7 +10,7 @@ const createHotel = async (req, res) => {
   }
 };
 
-const updateHotel = async (req, res) => {
+const updateHotel = async (req, res, next) => {
   try {
     const updatedHotel = await Hotel.findByIdAndUpdate(
       req.params.id,
@@ -27,7 +27,7 @@ const updateHotel = async (req, res) => {
   }
 };
 
-const deleteHotel = async (req, res) => {
+const deleteHotel = async (req, res, next) => {
   try {
     const deletedHotel = await Hotel.findByIdAndDelete(req.params.id);
     if (!deletedHotel) {
@@ -40,7 +40,7 @@ const deleteHotel = async (req, res) => {
   }
 };
 
-const getHotel = async (req, res) => {
+const getHotel = async (req, res, next) => {
   try {
     const foundHotel = await Hotel.findById(req.params.id);
     if (!foundHotel) {

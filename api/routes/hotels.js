@@ -6,22 +6,23 @@ import {
   getHotel,
   getAllHotels,
 } from '../controllers/hotel.controller.js';
+import { verfifyUser } from '../utils/verfifyToken.js';
 
-const routes = express.Router();
+const router = express.Router();
 
 // CREATE
-routes.post('/', createHotel);
+router.post('/', verfifyUser, createHotel);
 
 // UPDATE
-routes.put('/:id', updateHotel);
+router.put('/:id', verfifyUser, updateHotel);
 
 // DELETE
-routes.delete('/:id', deleteHotel);
+router.delete('/:id', verfifyUser, deleteHotel);
 
 // GET
-routes.get('/:id', getHotel);
+router.get('/:id', getHotel);
 
 // GET ALL
-routes.get('/', getAllHotels);
+router.get('/', getAllHotels);
 
-export default routes;
+export default router;
