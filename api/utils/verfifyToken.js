@@ -31,7 +31,6 @@ export const verfifyUser = (req, res, next) => {
 export const verifyAdmin = (req, res, next) => {
   verifyToken(req, res, () => {
     if (req?.user?.isAdmin) {
-      console.log('first');
       next();
     } else {
       const error = createError(403, 'You are not authorized!');
