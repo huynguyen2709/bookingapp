@@ -6,6 +6,7 @@ import hotelsRoute from './routes/hotels.js';
 import roomsRoute from './routes/rooms.js';
 import usersRoute from './routes/users.js';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 dotenv.config();
 const app = express();
@@ -13,7 +14,9 @@ const app = express();
 const connect = async () => {
   try {
     console.log('Connecting');
-    await mongoose.connect(process.env.MONGO);
+    await mongoose.connect(
+      'mongodb+srv://huyhamho145:Muaxuandep123456@cluster0.w6wjcm9.mongodb.net/booking?retryWrites=true&w=majority'
+    );
     console.log('Connected to MongoDB succesfully');
   } catch (error) {
     console.log('Error when connecting:', error);
@@ -23,6 +26,7 @@ const connect = async () => {
 // configurations
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors());
 
 // middleware handle routes
 app.use('/api/auth', authRoute);
