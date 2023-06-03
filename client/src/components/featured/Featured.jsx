@@ -8,6 +8,8 @@ const Featured = () => {
 
   return (
     <div className="featured">
+      {loading && 'Loading...'}
+      {error && `Error occurs: ${error}`}
       {data && (
         <>
           <div className="featuredItem">
@@ -45,8 +47,6 @@ const Featured = () => {
           </div>
         </>
       )}
-      {loading && 'Loading'}
-      {error && `Error occurs: ${error}`}
     </div>
   );
 };

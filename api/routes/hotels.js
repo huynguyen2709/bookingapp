@@ -6,6 +6,7 @@ import {
   getHotel,
   getAllHotels,
   countByCity,
+  countByType,
 } from '../controllers/hotel.controller.js';
 import { verfifyUser } from '../utils/verfifyToken.js';
 
@@ -27,6 +28,6 @@ router.get('/find/:id', getHotel);
 router.get('/', getAllHotels);
 
 router.get('/countByCity', countByCity);
-router.get('/countByType', getAllHotels);
+router.get('/countByType', countByType);
 
 export default router;
