@@ -55,9 +55,12 @@ const getHotel = async (req, res, next) => {
 
 const getAllHotels = async (req, res, next) => {
   const { min, max, limit, ...othersQuery } = req.query;
+  const { city } = { ...othersQuery };
+
   try {
     const allHotels = await Hotel.find({
       ...othersQuery,
+      city: { $regex: new RegExp(city, 'i') },
       cheapPrice: { $gt: min || 1, $lt: max || 2000 },
     }).limit(limit);
     res.status(200).json(allHotels);

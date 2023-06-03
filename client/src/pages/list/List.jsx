@@ -1,11 +1,12 @@
-import "./list.css";
-import Navbar from "../../components/navbar/Navbar";
-import Header from "../../components/header/Header";
-import { useLocation } from "react-router-dom";
-import { useState } from "react";
-import { format } from "date-fns";
-import { DateRange } from "react-date-range";
-import SearchItem from "../../components/searchItem/SearchItem";
+import './list.css';
+import Navbar from '../../components/navbar/Navbar';
+import Header from '../../components/header/Header';
+import { useLocation } from 'react-router-dom';
+import { useState } from 'react';
+import { format } from 'date-fns';
+import { DateRange } from 'react-date-range';
+import SearchItem from '../../components/searchItem/SearchItem';
+import { useFetch } from '../../hooks/useFetch';
 
 const List = () => {
   const location = useLocation();
@@ -13,6 +14,19 @@ const List = () => {
   const [date, setDate] = useState(location.state.date);
   const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState(location.state.options);
+
+  const [min, setMin] = useState();
+  const [max, setMax] = useState();
+
+  const { data, loading, error, refetch } = useFetch(
+    `http://localhost:8080/api/hotels?min=${min || 1}&max=${
+      max || 2000
+    }&city=${destination}`
+  );
+
+  const handleSearchHotels = () => {
+    refetch();
+  };
 
   return (
     <div>
@@ -24,14 +38,20 @@ const List = () => {
             <h1 className="lsTitle">Search</h1>
             <div className="lsItem">
               <label>Destination</label>
-              <input placeholder={destination} type="text" />
+              <input
+                value={destination}
+                onChange={(event) => {
+                  setDestination(event.target.value);
+                }}
+                type="text"
+              />
             </div>
             <div className="lsItem">
               <label>Check-in Date</label>
               <span onClick={() => setOpenDate(!openDate)}>{`${format(
                 date[0].startDate,
-                "MM/dd/yyyy"
-              )} to ${format(date[0].endDate, "MM/dd/yyyy")}`}</span>
+                'MM/dd/yyyy'
+              )} to ${format(date[0].endDate, 'MM/dd/yyyy')}`}</span>
               {openDate && (
                 <DateRange
                   onChange={(item) => setDate([item.selection])}
@@ -47,13 +67,25 @@ const List = () => {
                   <span className="lsOptionText">
                     Min price <small>per night</small>
                   </span>
-                  <input type="number" className="lsOptionInput" />
+                  <input
+                    type="number"
+                    onChange={(event) => {
+                      setMin(event.target.value);
+                    }}
+                    className="lsOptionInput"
+                  />
                 </div>
                 <div className="lsOptionItem">
                   <span className="lsOptionText">
                     Max price <small>per night</small>
                   </span>
-                  <input type="number" className="lsOptionInput" />
+                  <input
+                    type="number"
+                    onChange={(event) => {
+                      setMax(event.target.value);
+                    }}
+                    className="lsOptionInput"
+                  />
                 </div>
                 <div className="lsOptionItem">
                   <span className="lsOptionText">Adult</span>
@@ -84,18 +116,13 @@ const List = () => {
                 </div>
               </div>
             </div>
-            <button>Search</button>
+            <button onClick={handleSearchHotels}>Search</button>
           </div>
           <div className="listResult">
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
+            {loading && 'Loading...'}
+            {error && `Error occurs: ${error}`}
+            {data &&
+              data.map((hotel) => <SearchItem key={hotel._id} item={hotel} />)}
           </div>
         </div>
       </div>

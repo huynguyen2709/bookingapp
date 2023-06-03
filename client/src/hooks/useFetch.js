@@ -19,7 +19,7 @@ export const useFetch = (url) => {
       setLoading(false);
     };
     fetchApi();
-  }, [url]);
+  }, []);
 
   const refetch = async () => {
     setLoading(true);
