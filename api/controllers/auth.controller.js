@@ -48,7 +48,7 @@ const login = async (req, res, next) => {
         id: foundUser.id,
         isAdmin,
       },
-      process.env.JWT
+      'this-is-fake-key'
     );
     res
       .cookie('access_token', token, {
