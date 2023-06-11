@@ -6,6 +6,7 @@ import { SearchContext } from '../../context/SearchContext';
 import './reserve.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/AuthContext';
 
 const Reserve = ({ hotelId, setOpen }) => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const Reserve = ({ hotelId, setOpen }) => {
     `http://localhost:8080/api/hotels/room/${hotelId}`
   );
   const { date } = useContext(SearchContext);
+  const { user } = useContext(AuthContext);
 
   const handleSelect = (event) => {
     const selected = event.target.checked;
@@ -55,9 +57,17 @@ const Reserve = ({ hotelId, setOpen }) => {
     try {
       await Promise.all(
         selectedRooms.map((roomId) =>
-          axios.put(`http://localhost:8080/api/rooms/availability/${roomId}`, {
-            dates: allReservedDates,
-          })
+          axios.put(
+            `http://localhost:8080/api/rooms/availability/${roomId}`,
+            {
+              dates: allReservedDates,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${user.token}`,
+              },
+            }
+          )
         )
       );
 

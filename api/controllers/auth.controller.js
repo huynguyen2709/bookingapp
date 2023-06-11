@@ -50,12 +50,7 @@ const login = async (req, res, next) => {
       },
       'this-is-fake-key'
     );
-    res
-      .cookie('access_token', token, {
-        httpOnly: true,
-      })
-      .status(200)
-      .json({ ...otherDetails });
+    res.status(200).json({ ...otherDetails, token });
   } catch (error) {
     next(error);
   }
