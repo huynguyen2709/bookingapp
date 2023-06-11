@@ -1,4 +1,5 @@
 import Hotel from '../modules/Hotel.js';
+import Room from '../modules/Room.js';
 
 const createHotel = async (req, res, next) => {
   try {
@@ -104,6 +105,23 @@ const countByType = async (req, res, next) => {
   }
 };
 
+const getRoomsByHotel = async (req, res, next) => {
+  const hotelId = req.params.id;
+  try {
+    const hotel = await Hotel.findById(hotelId);
+    if (!hotel) {
+      res.status(200).json('No hotel found');
+      return;
+    }
+    const rooms = await Promise.all(
+      hotel.rooms.map((roomId) => Room.findById(roomId))
+    );
+    res.status(200).json(rooms);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export {
   createHotel,
   updateHotel,
@@ -112,4 +130,5 @@ export {
   getAllHotels,
   countByCity,
   countByType,
+  getRoomsByHotel,
 };

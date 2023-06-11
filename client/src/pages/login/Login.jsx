@@ -2,12 +2,14 @@ import React, { useContext, useState } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
 import './login.css';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
     username: undefined,
     password: undefined,
   });
+  const navigate = useNavigate();
 
   const { user, loading, error, dispatch } = useContext(AuthContext);
 
@@ -27,6 +29,7 @@ const Login = () => {
         credentials
       );
       dispatch({ type: 'LOGIN_SUCCESS', payload: data });
+      navigate('/');
     } catch (error) {
       dispatch({ type: 'LOGIN_FAIL', payload: error.response.data });
     }

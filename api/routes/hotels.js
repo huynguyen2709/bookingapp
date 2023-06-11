@@ -7,19 +7,20 @@ import {
   getAllHotels,
   countByCity,
   countByType,
+  getRoomsByHotel,
 } from '../controllers/hotel.controller.js';
-import { verfifyUser } from '../utils/verfifyToken.js';
+import { verfifyUser, verifyToken } from '../utils/verfifyToken.js';
 
 const router = express.Router();
 
 // CREATE
-router.post('/', verfifyUser, createHotel);
+router.post('/', verifyToken, verfifyUser, createHotel);
 
 // UPDATE
-router.put('/:id', verfifyUser, updateHotel);
+router.put('/:id', verifyToken, verfifyUser, updateHotel);
 
 // DELETE
-router.delete('/:id', verfifyUser, deleteHotel);
+router.delete('/:id', verifyToken, verfifyUser, deleteHotel);
 
 // GET
 router.get('/find/:id', getHotel);
@@ -29,5 +30,6 @@ router.get('/', getAllHotels);
 
 router.get('/countByCity', countByCity);
 router.get('/countByType', countByType);
+router.get('/room/:id', getRoomsByHotel);
 
 export default router;

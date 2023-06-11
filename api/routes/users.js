@@ -17,7 +17,7 @@ const router = express.Router();
 //   res.status(200).send('You are logged in');
 // });
 
-// router.get('/checkuser/:id', verfifyUser, (req, res) => {
+// router.get('/checkuser/:id', verifyToken, verfifyUser, (req, res) => {
 //   res.status(200).send('You are logged in and you can delete your account');
 // });
 
@@ -26,15 +26,15 @@ const router = express.Router();
 // });
 
 // UPDATE
-router.put('/:id', verfifyUser, updateUser);
+router.put('/:id', verifyToken, verfifyUser, updateUser);
 
 // DELETE
-router.delete('/:id', verfifyUser, deleteUser);
+router.delete('/:id', verifyToken, verfifyUser, deleteUser);
 
 // GET
-router.get('/:id', verfifyUser, getUser);
+router.get('/:id', verifyToken, verfifyUser, getUser);
 
 // GET ALL
-router.get('/', verifyAdmin, getAllUsers);
+router.get('/', verifyToken, verifyAdmin, getAllUsers);
 
 export default router;

@@ -14,10 +14,12 @@ import { useContext, useState } from 'react';
 import { useFetch } from '../../hooks/useFetch';
 import { useParams } from 'react-router-dom';
 import { SearchContext } from '../../context/SearchContext';
+import Reserve from '../../components/reserve/Reserve';
 
 const Hotel = () => {
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   const { id } = useParams();
 
@@ -87,7 +89,9 @@ const Hotel = () => {
         {error && `Error occurs: ${error}`}
         {data && (
           <div className="hotelWrapper">
-            <button className="bookNow">Reserve or Book Now!</button>
+            <button onClick={() => setOpenModal(true)} className="bookNow">
+              Reserve or Book Now!
+            </button>
             <h1 className="hotelTitle">{data.name}</h1>
             <div className="hotelAddress">
               <FontAwesomeIcon icon={faLocationDot} />
@@ -127,7 +131,9 @@ const Hotel = () => {
                   <b>${days * data.cheapPrice * options.room}</b> ({days}{' '}
                   nights)
                 </h2>
-                <button>Reserve or Book Now!</button>
+                <button onClick={() => setOpenModal(true)}>
+                  Reserve or Book Now!
+                </button>
               </div>
             </div>
           </div>
@@ -136,6 +142,9 @@ const Hotel = () => {
         <MailList />
         <Footer />
       </div>
+      {openModal && (
+        <Reserve setOpen={(value) => setOpenModal(value)} hotelId={id} />
+      )}
     </div>
   );
 };

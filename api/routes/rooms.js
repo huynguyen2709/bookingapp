@@ -5,19 +5,26 @@ import {
   deleteRoom,
   getRoom,
   getAllRooms,
+  updateRoomAvailability,
 } from '../controllers/room.controller.js';
-import { verfifyUser } from '../utils/verfifyToken.js';
+import { verifyAdmin, verifyToken } from '../utils/verfifyToken.js';
 
 const router = express.Router();
 
 // CREATE
-router.post('/:hotelid', verfifyUser, createRoom);
+router.post('/:hotelid', verifyToken, verifyAdmin, createRoom);
 
 // UPDATE
-router.put('/:id', verfifyUser, updateRoom);
+router.put('/:id', verifyToken, verifyAdmin, updateRoom);
+router.put(
+  '/availability/:id',
+  verifyToken,
+  verifyAdmin,
+  updateRoomAvailability
+);
 
 // DELETE
-router.delete('/:id/:hotelid', verfifyUser, deleteRoom);
+router.delete('/:id/:hotelid', verifyToken, verifyAdmin, deleteRoom);
 
 // GET
 router.get('/:id', getRoom);
