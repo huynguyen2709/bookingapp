@@ -31,12 +31,13 @@ const Reserve = ({ hotelId, setOpen }) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
 
+    const date = new Date(start.getTime());
+
     const dates = [];
 
-    while (start <= end) {
-      var deepCopyDate = new Date(start.getTime()); // To prevent start date from being changed uneccessary
-      dates.push(deepCopyDate);
-      start.setDate(start.getDate() + 1);
+    while (date <= end) {
+      dates.push(new Date(date).getTime());
+      date.setDate(date.getDate() + 1);
     }
 
     return dates;
@@ -64,7 +65,7 @@ const Reserve = ({ hotelId, setOpen }) => {
             },
             {
               headers: {
-                Authorization: `Bearer ${user.token}`,
+                Authorization: `Bearer ${user?.token}`,
               },
             }
           )
@@ -73,10 +74,11 @@ const Reserve = ({ hotelId, setOpen }) => {
 
       setOpen(false);
       navigate('/');
-    } catch (error) {} // TODO: implement error handling later
+    } catch (error) {
+      console.log('error', error);
+    } // TODO: implement error handling later
   };
 
-  console.log('selectedRooms:', selectedRooms);
   return (
     <div className="reserve">
       {loading && 'Loading...'}

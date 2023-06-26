@@ -9,12 +9,16 @@ import {
   countByType,
   getRoomsByHotel,
 } from '../controllers/hotel.controller.js';
-import { verfifyUser, verifyToken } from '../utils/verfifyToken.js';
+import {
+  verfifyUser,
+  verifyToken,
+  verifyAdmin,
+} from '../utils/verfifyToken.js';
 
 const router = express.Router();
 
 // CREATE
-router.post('/', verifyToken, verfifyUser, createHotel);
+router.post('/', verifyToken, verifyAdmin, createHotel);
 
 // UPDATE
 router.put('/:id', verifyToken, verfifyUser, updateHotel);

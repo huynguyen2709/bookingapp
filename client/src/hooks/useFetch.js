@@ -15,7 +15,7 @@ export const useFetch = (url) => {
       try {
         const { data } = await axios.get(url, {
           headers: {
-            Authorization: `Bearer ${user.token}`,
+            Authorization: `Bearer ${user?.token}`,
           },
         });
         setData(data);

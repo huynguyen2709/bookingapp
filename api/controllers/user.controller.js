@@ -3,7 +3,6 @@ import { createError } from '../utils/error.js';
 
 const updateUser = async (req, res, next) => {
   try {
-    console.log('req.body', req.body);
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
       {
